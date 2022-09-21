@@ -1,4 +1,3 @@
-import { NumberGenerator } from '../types';
 import { DistributionMap, PRNGCtor, RangedNumberGenerator, ValueListGenerator } from './types';
 
 export function testConsistency<T>(seed: string, ctor: PRNGCtor, generator: ValueListGenerator<T>) {

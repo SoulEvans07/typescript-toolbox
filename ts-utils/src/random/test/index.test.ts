@@ -8,7 +8,7 @@ import {
   mulberry32_xmur3a,
 } from './variants';
 import { PRNGVariantCase } from './types';
-import { emptyDistributionMap, testConsistency, testLinearDistribution } from './helpers';
+import { testConsistency, testLinearDistribution } from './helpers';
 import { InvalidArgumentException } from '../errors';
 
 describe('Random', () => {
@@ -30,8 +30,6 @@ describe('Random', () => {
     }
 
     describe(`::${name}`, () => {
-      const seed = 'pseudo-random-test-seed';
-      const PseudoRandom = createPRNG(seed);
       const Random = createPRNG(undefined);
 
       describe('.float()', () => {
