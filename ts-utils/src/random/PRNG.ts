@@ -1,4 +1,5 @@
 import { NumberGenerator, PRNGInitializer } from './types';
+import { InvalidArgumentException } from './errors';
 import { sfc32 } from './prng/sfc32';
 import { cyrb128 } from './seed/cyrb128';
 
@@ -30,10 +31,20 @@ export class PRNG {
   shuffle<T>(array: T[]) {
     const copy = [...array];
     for (let i = copy.length - 1; i > 0; i--) {
-      const j = Math.floor(this.integer(i + 1));
+      const j = Math.floor(this.integer(i));
       [copy[i], copy[j]] = [copy[j], copy[i]];
     }
     return copy;
+  }
+
+  choose<T>(array: T[]): T;
+  choose<T>(array: T[], count: number): T[];
+  choose<T>(array: T[], count?: number): T | T[] {
+    if (count === undefined) return array[this.integer(array.length - 1)];
+    if (count < 1) throw new InvalidArgumentException('count must be bigger than 0');
+
+    const randomized = this.shuffle(array);
+    return randomized.slice(0, count);
   }
 }
 

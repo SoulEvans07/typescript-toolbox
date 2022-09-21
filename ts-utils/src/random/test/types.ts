@@ -3,11 +3,13 @@ import { PRNGInitializer } from '../types';
 
 interface DefaultCase {
   name: 'default';
+  skip?: boolean;
 }
 
 interface VariantCase {
   name: string;
   initializer: PRNGInitializer;
+  skip?: boolean;
 }
 
 export type PRNGVariantCase = DefaultCase | VariantCase;
