@@ -8,7 +8,7 @@ import {
   mulberry32_xmur3a,
 } from './variants';
 import { PRNGVariantCase } from './types';
-import { testConsistency } from './helpers';
+import { emptyDistributionMap, testConsistency, testLinearDistribution } from './helpers';
 
 describe('Random', () => {
   const variants: PRNGVariantCase[] = [
@@ -34,16 +34,17 @@ describe('Random', () => {
       const Random = createPRNG(undefined);
 
       describe('.float()', () => {
+        const [min, max] = [-100, 100];
+
         test(
           'is consistent',
           testConsistency('float-consistent', createPRNG, (r, c) =>
-            new Array(c).fill(null).map(() => r.float(-100, 100))
+            new Array(c).fill(null).map(() => r.float(min, max))
           )
         );
 
         describe('method overloads', () => {
           const testCount = 100;
-          const [min, max] = [-100, 100];
 
           test('() => [0, 1)', () => {
             for (let i = 0; i < testCount; i++) {
@@ -70,20 +71,25 @@ describe('Random', () => {
           });
         });
 
-        test('distribution [-50, 50)', () => {});
+        // TODO: needs fixing @adam.szi
+        test.skip(
+          `distribution [${min}, ${max})`,
+          testLinearDistribution([min, max], (min, max) => Math.round(Random.float(min, max)))
+        );
       });
 
       describe('.integer()', () => {
+        const [min, max] = [-100, 100];
+
         test(
           'is consistent',
           testConsistency('float-consistent', createPRNG, (r, c) =>
-            new Array(c).fill(null).map(() => r.integer(-100, 100))
+            new Array(c).fill(null).map(() => r.integer(min, max))
           )
         );
 
         describe('method overloads', () => {
           const testCount = 100;
-          const [min, max] = [-100, 100];
 
           test('() => [0, 1]', () => {
             for (let i = 0; i < testCount; i++) {
@@ -111,7 +117,10 @@ describe('Random', () => {
           });
         });
 
-        test('distribution [-50, 50]', () => {});
+        test.skip(
+          `distribution [${min}, ${max}]`,
+          testLinearDistribution([min, max], (min, max) => Random.integer(min, max))
+        );
       });
     });
   });

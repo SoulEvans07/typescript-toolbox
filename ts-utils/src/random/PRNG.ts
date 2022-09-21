@@ -3,13 +3,13 @@ import { sfc32 } from './prng/sfc32';
 import { cyrb128 } from './seed/cyrb128';
 
 export class PRNG {
-  private number: NumberGenerator;
+  private number: NumberGenerator; // range: [0, 1)
 
   constructor(seed: string = randomSeed(), initializer: PRNGInitializer = sfc32_cyrb128) {
     this.number = initializer(seed);
   }
 
-  // [min, max)
+  // range: [min, max)
   float(max?: number): number;
   float(min: number, max: number): number;
   float(val1: number = 1, val2?: number): number {
@@ -18,7 +18,7 @@ export class PRNG {
     return min + this.number() * (max - min);
   }
 
-  // [min, max]
+  // range: [min, max]
   integer(max?: number): number;
   integer(min: number, max: number): number;
   integer(val1: number = 1, val2?: number): number {
