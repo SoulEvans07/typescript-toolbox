@@ -7,7 +7,7 @@ const positiveHint = (utils: MatcherUtils) => utils.matcherHint('.toThrowType', 
 
 const negativeHint = (utils: MatcherUtils) => utils.matcherHint('.not.toThrowType', 'function', 'type');
 
-const passMessage = (utils: MatcherUtils, received: any, expected: any) => () =>
+const passMessage = (utils: MatcherUtils, received: unknown, expected: unknown) => () =>
   negativeHint(utils) +
   '\n\n' +
   'Expected not to throw:\n' +
@@ -15,7 +15,7 @@ const passMessage = (utils: MatcherUtils, received: any, expected: any) => () =>
   'Thrown:\n' +
   `  ${utils.printReceived(received)}\n`;
 
-const failMessage = (utils: MatcherUtils, received: any, expected: any) => () =>
+const failMessage = (utils: MatcherUtils, received: unknown, expected: unknown) => () =>
   positiveHint(utils) +
   '\n\n' +
   'Expected to throw:\n' +
@@ -23,7 +23,7 @@ const failMessage = (utils: MatcherUtils, received: any, expected: any) => () =>
   'Thrown:\n' +
   `  ${utils.printReceived(received)}\n`;
 
-export function toThrowType(this: MatcherContext, callbackOrPromiseReturn: any, type: new () => Error) {
+export function toThrowType(this: MatcherContext, callbackOrPromiseReturn: VoidFunction, type: new () => Error) {
   const utils = this.utils;
   const isFromReject = this && this.promise === 'rejects'; // See https://github.com/facebook/jest/pull/7621#issue-244312550
 
@@ -42,7 +42,7 @@ export function toThrowType(this: MatcherContext, callbackOrPromiseReturn: any, 
 
   let error: Error | undefined;
   if (isFromReject) {
-    error = callbackOrPromiseReturn;
+    error = callbackOrPromiseReturn as unknown as Error;
   } else {
     try {
       callbackOrPromiseReturn();
