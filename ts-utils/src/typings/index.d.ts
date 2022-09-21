@@ -1,1 +1,1 @@
-export * from './jest.d.ts';
+export * from '../polyfills/jest/jest.d.ts';
