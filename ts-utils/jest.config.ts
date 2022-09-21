@@ -133,7 +133,7 @@ export default {
   // setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  setupFilesAfterEnv: ['jest-extended/all.js', './src/setupTests.ts'],
+  setupFilesAfterEnv: ['jest-extended/all.js', './src/setupTests.ts', './src/polyfills/jest/index.ts'],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,
@@ -151,10 +151,11 @@ export default {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  // testMatch: [
-  //   "**/__tests__/**/*.[jt]s?(x)",
-  //   "**/?(*.)+(spec|test).[tj]s?(x)"
-  // ],
+  testMatch: [
+    '**/__(tests|test)__/**/(*.)+(spec|test).[jt]s?(x)',
+    '**/(tests|test)/**/(*.)+(spec|test).[jt]s?(x)',
+    '**/?(*.)+(spec|test).[tj]s?(x)',
+  ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
