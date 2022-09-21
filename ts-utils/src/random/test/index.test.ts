@@ -41,14 +41,36 @@ describe('Random', () => {
           )
         );
 
-        test('defaults to [0, 1) range', () => {
+        describe('method overloads', () => {
           const testCount = 100;
-          for (let i = 0; i < testCount; i++) {
-            const value = Random.float();
-            expect(value).toBeGreaterThanOrEqual(0);
-            expect(value).toBeLessThan(1);
-          }
+          const [min, max] = [-100, 100];
+
+          test('() => [0, 1)', () => {
+            for (let i = 0; i < testCount; i++) {
+              const value = Random.float();
+              expect(value).toBeGreaterThanOrEqual(0);
+              expect(value).toBeLessThan(1);
+            }
+          });
+
+          test('(max) => [0, max)', () => {
+            for (let i = 0; i < testCount; i++) {
+              const value = Random.float(max);
+              expect(value).toBeGreaterThanOrEqual(0);
+              expect(value).toBeLessThan(max);
+            }
+          });
+
+          test('(min, max) => [min, max)', () => {
+            for (let i = 0; i < testCount; i++) {
+              const value = Random.float(min, max);
+              expect(value).toBeGreaterThanOrEqual(min);
+              expect(value).toBeLessThan(max);
+            }
+          });
         });
+
+        test('distribution [-50, 50)', () => {});
       });
 
       describe('.integer()', () => {
@@ -59,15 +81,37 @@ describe('Random', () => {
           )
         );
 
-        test('defaults to [0, 1] range', () => {
+        describe('method overloads', () => {
           const testCount = 100;
-          for (let i = 0; i < testCount; i++) {
-            const value = Random.integer();
-            expect(value).toBeInteger();
-            expect(value).toBeGreaterThanOrEqual(0);
-            expect(value).toBeLessThanOrEqual(1);
-          }
+          const [min, max] = [-100, 100];
+
+          test('() => [0, 1]', () => {
+            for (let i = 0; i < testCount; i++) {
+              const value = Random.integer();
+              expect(value).toBeInteger();
+              expect(value).toBeGreaterThanOrEqual(0);
+              expect(value).toBeLessThanOrEqual(1);
+            }
+          });
+
+          test('(max) => [0, max]', () => {
+            for (let i = 0; i < testCount; i++) {
+              const value = Random.integer(max);
+              expect(value).toBeGreaterThanOrEqual(0);
+              expect(value).toBeLessThanOrEqual(max);
+            }
+          });
+
+          test('(min, max) => [min, max]', () => {
+            for (let i = 0; i < testCount; i++) {
+              const value = Random.integer(min, max);
+              expect(value).toBeGreaterThanOrEqual(min);
+              expect(value).toBeLessThanOrEqual(max);
+            }
+          });
         });
+
+        test('distribution [-50, 50]', () => {});
       });
     });
   });
