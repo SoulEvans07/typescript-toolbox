@@ -10,6 +10,8 @@ export class PRNG {
   }
 
   // [min, max)
+  float(max?: number): number;
+  float(min: number, max: number): number;
   float(val1: number = 1, val2?: number): number {
     const min = val2 === undefined ? 0 : val1;
     const max = val2 === undefined ? val1 : val2;
@@ -17,7 +19,7 @@ export class PRNG {
   }
 
   // [min, max]
-  integer(max: number): number;
+  integer(max?: number): number;
   integer(min: number, max: number): number;
   integer(val1: number = 1, val2?: number): number {
     const min = val2 === undefined ? 0 : val1;
