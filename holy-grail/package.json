@@ -1,0 +1,25 @@
+{
+  "name": "holy-grail",
+  "version": "1.0.0",
+  "description": "This is an attempt at creating one of coding's holy gail",
+  "main": "src/index.ts",
+  "scripts": {
+    "format": "prettier --write ./src",
+    "build": "tsc -p ./tsconfig.json",
+    "postbuild": "node ./node_modules/add-js-extension/dist/bin.js ./out/build --once",
+    "serve": "serve ./out"
+  },
+  "repository": "https://github.com/SoulEvans07/typescript-toolbox",
+  "author": "adam.szi",
+  "license": "Beerware",
+  "dependencies": {
+    "immer": "^9.0.15",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.185",
+    "add-js-extension": "^1.0.4",
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.5"
+  }
+}
