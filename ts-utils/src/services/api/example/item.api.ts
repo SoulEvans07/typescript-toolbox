@@ -9,6 +9,11 @@ export class ItemApiManager extends ExampleApiManagerBase {
   constructor(request: IRequest, protected onAuthError: ErrorHandler) {
     super(request);
   }
+
+  public async test() {
+    return this.handleRetries(() => this.get('https://api.smartoffice.snapsoft.io/api/workspace/desks/1'));
+  }
+
   public async getItem(id: ExampleItemDto['id']) {
     return this.handleRetries(() => this.get<ExampleItemDto>(this.baseUrl + '/' + id));
   }
