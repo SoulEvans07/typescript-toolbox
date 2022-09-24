@@ -1,10 +1,6 @@
 import { request } from 'services/request';
-import { ExampleApiManager } from './example.api';
+import { ExampleApiServices } from './example';
 
-export const ApiServices = {
-  example: new ExampleApiManager(request),
-
-  setAuthToken(token: string) {
-    Object.values(this.fromProperties()).forEach(api => api.setAuthToken(token));
-  },
-} as const;
+export class ApiServices {
+  public static readonly example = new ExampleApiServices(request);
+}
