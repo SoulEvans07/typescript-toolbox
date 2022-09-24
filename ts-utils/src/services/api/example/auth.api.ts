@@ -1,5 +1,5 @@
 import { Identifiable } from 'types/common';
-import { MissingTokenError } from '../types';
+import { MissingTokenError } from 'services/request/errorTypes';
 import { ExampleApiManagerBase } from './example.base';
 
 export class AuthApiManager extends ExampleApiManagerBase {

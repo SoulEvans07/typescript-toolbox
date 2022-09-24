@@ -25,4 +25,4 @@ declare type UnknownObject = Object;
 // eslint-disable-next-line @typescript-eslint/ban-types
 declare type UnknownFunction = Function;
 
-declare type Constructor<T> = new () => T;
+declare type Constructor<T> = new (...args) => T;
