@@ -33,6 +33,19 @@ class Request implements IRequest {
     );
   }
 
+  public async put<R extends ResponseBody>(url: string, body?: RequestBody, headers?: RequestHeaders): Promise<R> {
+    return new Promise<R>((resolve, reject) =>
+      fetch(url, {
+        method: 'put',
+        headers: { 'content-type': 'application/json', ...headers },
+        body: JSON.stringify(body),
+      }).then(
+        response => resolve(handleResponse(response)),
+        err => reject(err) // fetch error, i.e: no internet
+      )
+    );
+  }
+
   public async delete<R extends ResponseBody>(url: string, body?: RequestBody, headers?: RequestHeaders): Promise<R> {
     return new Promise<R>((resolve, reject) =>
       fetch(url, {

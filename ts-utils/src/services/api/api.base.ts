@@ -16,6 +16,10 @@ export abstract class ApiManagerBase {
     return this.request.patch<R>(url, body, this.mergeHeaders(headers));
   }
 
+  protected async put<R extends ResponseBody>(url: string, body?: RequestBody, headers?: RequestHeaders): Promise<R> {
+    return this.request.put<R>(url, body, this.mergeHeaders(headers));
+  }
+
   protected async delete<R extends ResponseBody>(url: string, headers?: RequestHeaders): Promise<R> {
     return this.request.delete<R>(url, undefined, this.mergeHeaders(headers));
   }
