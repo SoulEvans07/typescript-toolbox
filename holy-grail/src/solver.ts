@@ -1,17 +1,17 @@
-import { Agent, AgentState } from './types/agent';
+import { Agent, Resources, ResourceValues, Target } from './types/agent';
 import { CalcDiff } from './calcDiff';
 
 type StackState = {
-  currentState: AgentState;
+  currentState: ResourceValues;
   cost: number;
-  parent: AgentState | null;
+  parent: ResourceValues | null;
   steps: string[];
 };
 
-export function solver(agent: Agent, target: Partial<AgentState>) {
+export function solver(agent: Agent, target: Target) {
   const open: StackState[] = [
     {
-      currentState: agent.state,
+      currentState: agent.getValues(),
       cost: 0,
       parent: null,
       steps: [],
@@ -35,8 +35,8 @@ export function solver(agent: Agent, target: Partial<AgentState>) {
 
     Object.entries(agent.actions).forEach(([name, action]) => {
       const newState = action(current.currentState);
-      const diffTo = CalcDiff.calc(target, newState) as AgentState;
-      const diffFrom = CalcDiff.calc(agent.state, newState) as AgentState;
+      const diffTo = CalcDiff.calc(target, newState) as ResourceValues;
+      const diffFrom = CalcDiff.calc(agent.resources, newState) as ResourceValues;
       console.log(diffTo, diffFrom);
 
       open.push({
