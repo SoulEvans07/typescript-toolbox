@@ -18,6 +18,27 @@ export class ExampleApiServices {
     };
   }
 
+  public get apis() {
+    const wrappedApis = Object.entriesTyped(this._apis).reduce((apis, [apiName, api]) => {
+      const functions = this._apis[apiName].fromAllFunctions();
+      const withRetries = Object.entriesTyped(functions).reduce((wrapped, [funcName, func]) => {
+        const retries = getRetries(this._apis[apiName], funcName) || 0;
+        if (retries === 0) return wrapped;
+        return {
+          ...wrapped,
+          [funcName]: func,
+        };
+      }, {} as typeof functions);
+
+      return {
+        ...apis,
+        [apiName]: { ...api, ...withRetries },
+      };
+    }, this._apis);
+
+    return wrappedApis;
+  }
+
   public async login(username: string, password: string) {
     const { user, accessToken, refreshToken } = await this._apis.auth.login(username, password);
     Object.values(this._apis).forEach(api =>
