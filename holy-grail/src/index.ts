@@ -1,28 +1,43 @@
 import { solver } from './solver';
-import { Agent, AgentState } from './types/agent';
+import { Agent, Resources, ResourceType, ResourceValues, Target } from './types/agent';
 
-const from: AgentState = {
-  hunger: 100,
-  food: 100,
+const resources: Resources = {
+  hunger: { value: 100, prio: 100 },
+  food: { value: 100, prio: 50 },
 };
 
-const to: Partial<AgentState> = {
+const to: Target = {
   hunger: 80,
 };
 
 const agent: Agent = {
-  state: from,
-  weighPriorities(values: AgentState): number {
-    return values.hunger + values.food;
+  resources,
+  update(values: ResourceValues) {
+    Object.entries(values).forEach(([key, value]) => {
+      this.resources[key as ResourceType].value === value;
+    });
+  },
+  getValues(): ResourceValues {
+    return Object.entries(this.resources).reduce(
+      (values, [key, { value }]) => ({
+        ...values,
+        [key]: value,
+      }),
+      {} as ResourceValues
+    );
+  },
+  weighPriorities(resources: Resources): number {
+    const values = Object.values(resources);
+    return values.reduce((sum, curr) => sum + curr.prio * curr.value, 0);
   },
   actions: {
-    run(state: AgentState) {
+    run(state: ResourceValues) {
       return { ...state, hunger: state.hunger + 2 };
     },
-    eat(state: AgentState) {
+    eat(state: ResourceValues) {
       return { ...state, hunger: state.hunger - 1, food: state.food - 1 };
     },
-    feast(state: AgentState) {
+    feast(state: ResourceValues) {
       return { ...state, hunger: state.hunger - 3, food: state.food - 3 };
     },
   },
