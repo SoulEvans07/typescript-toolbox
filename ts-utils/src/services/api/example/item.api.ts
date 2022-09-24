@@ -6,34 +6,40 @@ import { ExampleApiManagerBase } from './example.base';
 export class ItemApiManager extends ExampleApiManagerBase {
   protected resourceName = 'item';
 
-  @retries(3)
+  constructor(request: IRequest, protected onAuthError: ErrorHandler) {
+    super(request);
+  }
   public async getItem(id: ExampleItemDto['id']) {
-    return this.get<ExampleItemDto>(this.baseUrl + '/' + id);
+    return this.handleRetries(() => this.get<ExampleItemDto>(this.baseUrl + '/' + id));
   }
 
-  @retries(3)
   public async getList() {
-    return this.get<ExampleItemDto[]>(this.baseUrl);
+    return this.handleRetries(() => this.get<ExampleItemDto[]>(this.baseUrl));
   }
 
-  @retries(3)
   public async createItem(item: CreateExampleItemDto) {
-    return this.post<ExampleItemDto>(this.baseUrl, item);
+    return this.handleRetries(() => this.post<ExampleItemDto>(this.baseUrl, item));
   }
 
-  @retries(3)
   public async patchItem(item: ExampleItemDto) {
-    return this.patch<ExampleItemDto>(this.baseUrl + '/' + item.id);
+    return this.handleRetries(() => this.patch<ExampleItemDto>(this.baseUrl + '/' + item.id));
   }
 
-  @retries(3)
   public async updateItem(item: ExampleItemDto) {
-    return this.put<ExampleItemDto>(this.baseUrl + '/' + item.id);
+    return this.handleRetries(() => this.put<ExampleItemDto>(this.baseUrl + '/' + item.id));
   }
 
-  @retries(3)
   public async deleteTest(id: ExampleItemDto['id']) {
-    return this.delete<void>(this.baseUrl + '/' + id);
+    return this.handleRetries(() => this.delete<void>(this.baseUrl + '/' + id));
+  }
+
+  protected handleRetries<R>(
+    apiMethod: AsyncCallback<R>,
+    onAuthError = this.onAuthError,
+    maxTries: number = 3,
+    tryCount?: number
+  ): Promise<R> {
+    return super.handleRetries(apiMethod, onAuthError, maxTries, tryCount);
   }
 }
 

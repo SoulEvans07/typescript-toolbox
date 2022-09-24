@@ -1,4 +1,5 @@
 import { Exception } from 'types/error';
+import { MaxRetriesExceededError, ResponseError, UnauthorizedError } from 'services/request/errorTypes';
 import { StatusCode } from 'services/request/statusCodes';
 import { IRequest, ResponseBody, QueryParams, RequestHeaders, RequestBody } from 'services/request/types';
 import { AsyncCallback, ErrorHandler } from './types';
@@ -36,7 +37,24 @@ export abstract class ApiManagerBase {
     return { ...this.commonHeaders, ...headers };
   }
 
-async function handleErrors<R>(apiMethod: () => Promise<R>): Promise<R> {
+  protected async handleRetries<R>(
+    apiMethod: AsyncCallback<R>,
+    onAuthError: ErrorHandler,
+    maxTries: number,
+    tryCount = 0
+  ): Promise<R> {
+    try {
+      return await apiMethod();
+    } catch (e) {
+      const error = Exception.from(e);
+      if (!error.is(UnauthorizedError)) throw error;
+      if (tryCount >= maxTries) throw new MaxRetriesExceededError();
+      await onAuthError(error);
+      return this.handleRetries(apiMethod, onAuthError, maxTries, tryCount + 1);
+    }
+  }
+}
+
 async function handleErrors<R>(apiMethod: AsyncCallback<R>): Promise<R> {
   try {
     return await apiMethod();
