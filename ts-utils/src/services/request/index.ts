@@ -1,3 +1,4 @@
+import fetch, { Response } from 'node-fetch';
 import { withQuery } from './helpers';
 import { StatusCode } from './statusCodes';
 import { IRequest, QueryParams, RequestBody, RequestHeaders, ResponseBody } from './types';
