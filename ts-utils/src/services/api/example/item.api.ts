@@ -1,5 +1,6 @@
 import { Identifiable } from 'types/common';
-import { retries } from '../decorators';
+import { IRequest } from 'services/request/types';
+import { AsyncCallback, ErrorHandler } from '../types';
 import { ExampleApiManagerBase } from './example.base';
 
 export class ItemApiManager extends ExampleApiManagerBase {

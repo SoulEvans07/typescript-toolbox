@@ -1,6 +1,7 @@
 import fetch, { Response } from 'node-fetch';
+import { ResponseError } from './errorTypes';
+
 import { withQuery } from './helpers';
-import { StatusCode } from './statusCodes';
 import { IRequest, QueryParams, RequestBody, RequestHeaders, ResponseBody } from './types';
 
 class Request implements IRequest {
@@ -65,8 +66,8 @@ export const request: IRequest = new Request();
 
 async function handleResponse<R extends ResponseBody>(response: Response): Promise<R> {
   return new Promise<R>((resolve, reject) => {
-    if (response.status !== StatusCode.OK) parseBody(response).then(error => reject(error));
-    else parseBody(response).then(data => resolve(data));
+    if (response.ok) parseBody(response).then(data => resolve(data));
+    else parseBody(response).then(error => reject(new ResponseError(error, response)));
   });
 }
 
