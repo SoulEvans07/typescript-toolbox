@@ -1,5 +1,5 @@
+import { Agent, Resources, ResourceType, ResourceValues, Target } from './agent';
 import { solver } from './solver';
-import { Agent, Resources, ResourceType, ResourceValues, Target } from './types/agent';
 
 const resources: Resources = {
   hunger: { value: 100, prio: 100 },

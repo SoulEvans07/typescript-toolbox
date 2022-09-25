@@ -1,4 +1,4 @@
-import { isDate, isFunction, isValue } from './typeGuards';
+import { isDate, isFunction, isValue } from 'types/typeGuards';
 
 const ValueState = {
   created: 'created',

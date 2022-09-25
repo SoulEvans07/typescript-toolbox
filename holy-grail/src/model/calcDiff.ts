@@ -1,4 +1,4 @@
-import { isFunction, isNumber } from './typeGuards';
+import { isFunction, isNumber } from 'types/typeGuards';
 
 export class CalcDiff {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
