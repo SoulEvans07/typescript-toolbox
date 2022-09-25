@@ -1,26 +1,57 @@
 {
   "name": "holy-grail",
-  "version": "1.0.0",
-  "description": "This is an attempt at creating one of coding's holy gail",
-  "main": "src/index.ts",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "start": "ts-node ./src/index.ts",
-    "format": "prettier --write ./src",
-    "build": "tsc -p ./tsconfig.json",
-    "postbuild": "node ./node_modules/add-js-extension/dist/bin.js ./out/build --once",
-    "serve": "serve ./out"
+    "start": "cross-env BROWSER=none react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "format": "prettier --write ./src"
   },
-  "repository": "https://github.com/SoulEvans07/typescript-toolbox",
-  "author": "adam.szi",
-  "license": "Beerware",
   "dependencies": {
-    "lodash": "^4.17.21"
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.13",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "sass": "^1.55.0",
+    "typescript": "^4.8.2",
+    "web-vitals": "^2.1.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.185",
-    "add-js-extension": "^1.0.4",
-    "prettier": "^2.5.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.5.5"
+    "@typescript-eslint/eslint-plugin": "^5.38.0",
+    "@typescript-eslint/parser": "^5.38.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jest-extended": "^3.1.0",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^29.0.2"
   }
 }

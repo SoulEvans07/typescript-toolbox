@@ -1,4 +1,4 @@
-import { Agent, Resources, ResourceValues, Target } from './types/agent';
+import { Agent, ResourceValues, Target } from './agent';
 import { CalcDiff } from './calcDiff';
 
 type StackState = {
