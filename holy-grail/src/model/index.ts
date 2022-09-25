@@ -43,5 +43,7 @@ const agent: Agent = {
   },
 };
 
-const plan = solver(agent, to);
-console.log(plan);
+export function main() {
+  const plan = solver(agent, to);
+  console.log(plan);
+}

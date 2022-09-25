@@ -1,8 +1,21 @@
 import './App.scss';
-import 'model';
+import { main } from 'model';
 
 function App() {
-  return <div className="app"></div>;
+  const clear = () => console.clear();
+  const run = () => main();
+  const cleanRun = () => {
+    clear();
+    run();
+  };
+
+  return (
+    <div className="app">
+      <button onClick={cleanRun}>clean run</button>
+      <button onClick={run}>run</button>
+      <button onClick={clear}>clear</button>
+    </div>
+  );
 }
 
 export default App;
