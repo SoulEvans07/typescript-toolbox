@@ -36,7 +36,7 @@ export function solver(agent: Agent, target: Target) {
     Object.entries(agent.actions).forEach(([name, action]) => {
       const newState = action(current.currentState);
       const diffTo = CalcDiff.calc(target, newState) as ResourceValues;
-      const diffFrom = CalcDiff.calc(agent.resources, newState) as ResourceValues;
+      const diffFrom = CalcDiff.calc(agent.getValues(), newState) as ResourceValues;
       console.log(diffTo, diffFrom);
 
       open.push({
