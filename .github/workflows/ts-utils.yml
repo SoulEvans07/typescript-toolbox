@@ -1,0 +1,33 @@
+name: Typescript Utils Test
+on:
+  push:
+    paths:
+      - '.github/workflows/ts-utils.yml'
+      - 'ts-utils/**'
+  pull_request:
+    paths:
+      - 'ts-utils/**'
+jobs:
+  ts-utils-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: |
+          cd ts-utils
+          yarn install
+      - name: Type Check
+        run: |
+          cd ts-utils
+          yarn typecheck
+      - name: Tests
+        run: |
+          cd ts-utils
+          yarn test
+      - name: Smoke Test (tsc build)
+        run: |
+          cd ts-utils
+          yarn build
