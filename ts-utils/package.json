@@ -12,9 +12,9 @@
     "format": "prettier --write ./src",
     "lint": "eslint ./src --ext .ts -c .eslintrc --fix",
     "clean": "rimraf build",
-    "build": "yarn tsc",
+    "build": "tsc",
     "build:clean": "yarn clean && yarn build",
-    "typecheck": "yarn tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/jest": "^29.0.3",
