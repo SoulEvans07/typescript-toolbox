@@ -1,1 +1,1 @@
-export * from '../polyfills/jest/jest.d.ts';
+import 'jest-extended/types';
