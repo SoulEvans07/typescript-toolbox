@@ -1,4 +1,4 @@
-export const Resources = ['health', 'fullness', 'food'] as const;
+export const Resources = ['health', 'fullness', 'saturation', 'food'] as const;
 export type ResourceType = typeof Resources[number];
 
 export type Stats = Record<ResourceType, number>;
@@ -18,6 +18,6 @@ export type Agent = {
   limits: StatLimits;
   actions: AgentActions;
   calcWeight: (values: Stats) => number;
-  calcG: (from: Stats, curr: Stats) => number;
-  calcH: (curr: Stats, target: Partial<Stats>) => number;
+  calcG: (start: Stats, prev: Stats, curr: Stats, target: Partial<Stats>) => number;
+  calcH: (prev: Stats, curr: Stats, target: Partial<Stats>) => number;
 };

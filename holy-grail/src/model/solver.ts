@@ -1,18 +1,19 @@
-import { Agent, Resources, Stats, Target } from './agent';
-import { CalcDiff } from './calcDiff';
+import { Agent, ResourceType, Stats, Target } from './agent';
+
+let incId = 0;
 
 type StackState = {
+  id: number;
   state: Stats;
   cost: number;
-  parent: Stats | null;
+  parent: number | null; // Stats | null;
   steps: string[];
 };
 
 export function solver(agent: Agent, target: Target) {
-  const targetKeys = Object.keys(target);
-  const dontCare = Resources.filter(r => !targetKeys.includes(r));
   const open: StackState[] = [
     {
+      id: ++incId,
       state: agent.stats,
       cost: 0,
       parent: null,
@@ -34,26 +35,24 @@ export function solver(agent: Agent, target: Target) {
     close.push(current);
 
     console.log('--------', current.steps.last(), current.cost, '--------');
+    console.log('current:', current);
 
-    if (current.state.fullness === target.fullness) return close.reverse()[0].steps;
+    if (checkTarget(current.state, target)) return close.reverse()[0].steps;
 
     Object.entries(agent.actions).forEach(([name, action]) => {
       try {
         const newState = action(current.state);
 
-        // const diffFrom = CalcDiff.calc(agent.stats, newState) as Stats;
-        // const diffTo = CalcDiff.calc(target, newState) as Stats;
-        // for (const key of dontCare) diffTo[key] = 0;
-
-        const gx = agent.calcG(agent.stats, newState);
-        const hx = agent.calcH(newState, target);
+        const gx = agent.calcG(agent.stats, current.state, newState, target);
+        const hx = agent.calcH(current.state, newState, target);
         console.log(name, newState, gx, hx, gx + hx);
 
         open.push({
+          id: ++incId,
           // cost: Math.abs(Math.abs(diffTo.fullness) + Math.abs(diffFrom.food)),
           cost: gx + hx,
           state: newState,
-          parent: current.state,
+          parent: current.id,
           steps: [...current.steps, name],
         });
       } catch (e) {
@@ -63,4 +62,8 @@ export function solver(agent: Agent, target: Target) {
   }
 
   return { open, close };
+}
+
+function checkTarget(current: Stats, target: Partial<Stats>): boolean {
+  return Object.keys(target).every(key => target[key as ResourceType] === current[key as ResourceType]);
 }
