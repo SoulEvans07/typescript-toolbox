@@ -5,12 +5,12 @@ import { solver } from './solver';
 
 const from: Stats = {
   health: 100,
-  fullness: 80,
-  food: 15,
+  fullness: 10,
+  food: 0,
 };
 
 const to: Target = {
-  fullness: 100,
+  fullness: 20,
 };
 
 const targetKeys = Object.keys(to);
@@ -53,7 +53,7 @@ const agent: Agent = {
     run(state: Stats) {
       return produce(state, draft => {
         draft.fullness = Math.clamp(draft.fullness - 2, 0, 100);
-        if (draft.fullness < 0) draft.health -= 1;
+        if (draft.fullness <= 10) draft.health -= 1;
       });
     },
     eat(state: Stats) {
@@ -61,7 +61,7 @@ const agent: Agent = {
         draft.fullness += 1;
         draft.food -= 1;
         if (draft.food < limits.food.min) throw new Error('Food cant be less than 0');
-        if (draft.fullness < 0) draft.health -= 1;
+        if (draft.fullness <= 10) draft.health -= 1;
       });
     },
     feast(state: Stats) {
@@ -69,13 +69,14 @@ const agent: Agent = {
         draft.fullness += 3;
         draft.food -= 3;
         if (draft.food < limits.food.min) throw new Error('Food cant be less than 0');
-        if (draft.fullness < 0) draft.health -= 1;
+        if (draft.fullness <= 10) draft.health -= 1;
       });
     },
     gather(state: Stats) {
       return produce(state, draft => {
         draft.food = 2;
-        if (draft.fullness < 0) draft.health -= 1;
+        draft.fullness = Math.clamp(draft.fullness - 1, 0, 100);
+        if (draft.fullness <= 10) draft.health -= 1;
       });
     },
   },
