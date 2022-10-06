@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import './App.scss';
+
 import { main } from 'model';
 
 function App() {
@@ -8,6 +10,8 @@ function App() {
     clear();
     run();
   };
+
+  useEffect(() => {});
 
   return (
     <div className="app">

@@ -1,25 +1,17 @@
-export type Resource = {
-  value: number;
-  prio: number;
-};
+export const Resources = ['health', 'fullness', 'food'] as const;
+export type ResourceType = typeof Resources[number];
 
-export type Resources = {
-  hunger: Resource;
-  food: Resource;
-};
+export type Stats = Record<ResourceType, number>;
+export type StatPrio = Record<keyof Stats, number>;
 
-export type ResourceType = keyof Resources;
+export type Target = Partial<Stats>;
 
-export type ResourceValues = Record<ResourceType, number>;
-export type Target = Partial<ResourceValues>;
-
-export type Action = (state: ResourceValues) => ResourceValues;
+export type Action = (state: Stats) => Stats;
 export type AgentActions = Record<string, Action>;
 
 export type Agent = {
-  resources: Resources;
+  stats: Stats;
+  prio: StatPrio;
   actions: AgentActions;
-  update: (values: ResourceValues) => void;
-  getValues: () => ResourceValues;
-  weighPriorities: (values: Resources) => number;
+  calcWeight: (values: Stats) => number;
 };

@@ -1,17 +1,17 @@
-import { Agent, ResourceValues, Target } from './agent';
+import { Agent, Stats, Target } from './agent';
 import { CalcDiff } from './calcDiff';
 
 type StackState = {
-  currentState: ResourceValues;
+  state: Stats;
   cost: number;
-  parent: ResourceValues | null;
+  parent: Stats | null;
   steps: string[];
 };
 
 export function solver(agent: Agent, target: Target) {
   const open: StackState[] = [
     {
-      currentState: agent.getValues(),
+      state: agent.stats,
       cost: 0,
       parent: null,
       steps: [],
@@ -31,18 +31,18 @@ export function solver(agent: Agent, target: Target) {
     const current = open.splice(currentIndex, 1)[0];
     close.push(current);
 
-    if (current.currentState.hunger === target.hunger) return close.reverse()[0].steps;
+    if (current.state.fullness === target.fullness) return close.reverse()[0].steps;
 
     Object.entries(agent.actions).forEach(([name, action]) => {
-      const newState = action(current.currentState);
-      const diffTo = CalcDiff.calc(target, newState) as ResourceValues;
-      const diffFrom = CalcDiff.calc(agent.getValues(), newState) as ResourceValues;
-      console.log(diffTo, diffFrom);
+      const newState = action(current.state);
+      const diffTo = CalcDiff.calc(target, newState) as Stats;
+      const diffFrom = CalcDiff.calc(agent.stats, newState) as Stats;
+      console.log('d', diffTo, diffFrom);
 
       open.push({
-        currentState: newState,
-        cost: Math.abs(Math.abs(diffTo.hunger) + Math.abs(diffFrom.food)),
-        parent: current.currentState,
+        state: newState,
+        cost: Math.abs(Math.abs(diffTo.fullness) + Math.abs(diffFrom.food)),
+        parent: current.state,
         steps: [...current.steps, name],
       });
     });
