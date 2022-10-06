@@ -1,2 +1,3 @@
-// import './jest';
-export {};
+import './number';
+import './array';
+import './math';

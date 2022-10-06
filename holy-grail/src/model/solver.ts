@@ -1,4 +1,4 @@
-import { Agent, Stats, Target } from './agent';
+import { Agent, Resources, Stats, Target } from './agent';
 import { CalcDiff } from './calcDiff';
 
 type StackState = {
@@ -9,6 +9,8 @@ type StackState = {
 };
 
 export function solver(agent: Agent, target: Target) {
+  const targetKeys = Object.keys(target);
+  const dontCare = Resources.filter(r => !targetKeys.includes(r));
   const open: StackState[] = [
     {
       state: agent.stats,
@@ -31,20 +33,32 @@ export function solver(agent: Agent, target: Target) {
     const current = open.splice(currentIndex, 1)[0];
     close.push(current);
 
+    console.log('--------', current.steps.last(), current.cost, '--------');
+
     if (current.state.fullness === target.fullness) return close.reverse()[0].steps;
 
     Object.entries(agent.actions).forEach(([name, action]) => {
-      const newState = action(current.state);
-      const diffTo = CalcDiff.calc(target, newState) as Stats;
-      const diffFrom = CalcDiff.calc(agent.stats, newState) as Stats;
-      console.log('d', diffTo, diffFrom);
+      try {
+        const newState = action(current.state);
 
-      open.push({
-        state: newState,
-        cost: Math.abs(Math.abs(diffTo.fullness) + Math.abs(diffFrom.food)),
-        parent: current.state,
-        steps: [...current.steps, name],
-      });
+        // const diffFrom = CalcDiff.calc(agent.stats, newState) as Stats;
+        // const diffTo = CalcDiff.calc(target, newState) as Stats;
+        // for (const key of dontCare) diffTo[key] = 0;
+
+        const gx = agent.calcG(agent.stats, newState);
+        const hx = agent.calcH(newState, target);
+        console.log(name, newState, gx, hx, gx + hx);
+
+        open.push({
+          // cost: Math.abs(Math.abs(diffTo.fullness) + Math.abs(diffFrom.food)),
+          cost: gx + hx,
+          state: newState,
+          parent: current.state,
+          steps: [...current.steps, name],
+        });
+      } catch (e) {
+        // console.log((e as Error).message);
+      }
     });
   }
 
