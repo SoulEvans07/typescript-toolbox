@@ -43,6 +43,29 @@ describe('Object:polyfill', () => {
     });
   });
 
+  // TODO: to be implemented @adam.szi
+  describe.skip('.isFunction()', () => {
+    test('no functions', () => expect(false).toBeTrue());
+    test('only functions', () => expect(false).toBeTrue());
+    test('object with functions', () => expect(false).toBeTrue());
+  });
+
+  // TODO: to be implemented @adam.szi
+  describe.skip('.fromFunctions()', () => {
+    test('empty object', () => expect(false).toBeTrue());
+    test('no functions', () => expect(false).toBeTrue());
+    test('only functions', () => expect(false).toBeTrue());
+    test('object with functions', () => expect(false).toBeTrue());
+  });
+
+  // TODO: to be implemented @adam.szi
+  describe.skip('.fromAllFunctions()', () => {
+    test('empty object', () => expect(false).toBeTrue());
+    test('no functions', () => expect(false).toBeTrue());
+    test('only functions', () => expect(false).toBeTrue());
+    test('object with functions', () => expect(false).toBeTrue());
+  });
+
   const onlyFunctions = {
     func0() {
       console.log();

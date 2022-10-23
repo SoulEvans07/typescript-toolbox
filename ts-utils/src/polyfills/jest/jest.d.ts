@@ -1,5 +1,6 @@
 interface CustomMatchers<R = unknown> {
-  toThrowType(errorType: new () => Error): R;
+  toThrowType(errorType: Constructor<Error>): R;
+  toThrowSubType(errorType: AnyConstructor<Error>): R;
 }
 
 declare namespace jest {
