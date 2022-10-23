@@ -23,6 +23,7 @@ const failMessage = (utils: MatcherUtils, received: unknown, expected: unknown) 
   'Thrown:\n' +
   `  ${utils.printReceived(received)}\n`;
 
+// TODO: rename this to strict version then make one where any descendant class is accepted
 export function toThrowType(this: MatcherContext, callbackOrPromiseReturn: VoidFunction, type: new () => Error) {
   const utils = this.utils;
   const isFromReject = this && this.promise === 'rejects'; // See https://github.com/facebook/jest/pull/7621#issue-244312550

@@ -1,3 +1,5 @@
+/* TODO: move all to an ObjectHelper so we polyfill only the ones that are needed */
+
 if (!Object.keysTyped) {
   Object.keysTyped = function <T extends UnknownObject>(obj: T): Array<keyof T> {
     return Object.keys(obj) as Array<keyof T>;
@@ -10,18 +12,21 @@ if (!Object.entriesTyped) {
   };
 }
 
+// NOTE: react native has issues with this @adam.szi
 if (!Object.prototype.isProperty) {
   Object.prototype.isProperty = function <T extends UnknownObject>(this: T, key: keyof T): key is PropertyKeys<T> {
     return typeof this[key] !== 'function';
   };
 }
 
+// NOTE: react native has issues with this @adam.szi
 if (!Object.prototype.isFunction) {
   Object.prototype.isFunction = function <T extends UnknownObject>(this: T, key: keyof T): key is FunctionKeys<T> {
     return typeof this[key] === 'function';
   };
 }
 
+// NOTE: react native has issues with this @adam.szi
 if (!Object.prototype.fromProperties) {
   Object.prototype.fromProperties = function <T extends UnknownObject>(this: T): Properties<T> {
     const props = {} as Properties<T>;
@@ -34,6 +39,7 @@ if (!Object.prototype.fromProperties) {
   };
 }
 
+// NOTE: react native has issues with this @adam.szi
 if (!Object.prototype.fromFunctions) {
   Object.prototype.fromFunctions = function <T extends UnknownObject>(this: T): Functions<T> {
     const props = {} as Functions<T>;
@@ -62,6 +68,7 @@ function getAllKeys<T extends Object>(toCheck: T): Array<keyof T> {
   return props.sort().filter(k => k !== 'constructor');
 }
 
+// NOTE: react native has issues with this @adam.szi
 if (!Object.prototype.fromAllFunctions) {
   Object.prototype.fromAllFunctions = function <T extends UnknownObject>(this: T): Functions<T> {
     const props = {} as Functions<T>;

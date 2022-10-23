@@ -16,6 +16,7 @@ export abstract class Exception extends Error {
   public static from(obj: unknown): Exception {
     if (typeof obj === 'string') return new UnknownError(obj);
     if (obj instanceof Error) return Object.setPrototypeOf(obj, Exception.prototype);
+    // TODO: handle objects but not booleans, numbers or other primitives besides string
     throw new NotExceptionError(JSON.stringify(obj));
   }
 }
