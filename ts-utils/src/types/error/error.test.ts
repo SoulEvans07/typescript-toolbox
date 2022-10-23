@@ -24,6 +24,9 @@ describe('Exceptions', () => {
       expect(() => {
         throw error;
       }).toThrowType(Error);
+      expect(() => {
+        throw error;
+      }).toThrowSubType(Exception);
       expect(error.name).toEqual(Error.name);
       expect(error.message).toEqual(message);
     });
@@ -37,6 +40,9 @@ describe('Exceptions', () => {
       expect(() => {
         throw error;
       }).toThrowType(CustomError);
+      expect(() => {
+        throw error;
+      }).toThrowSubType(Exception);
       expect(error.name).toEqual(CustomError.name);
       expect(error.message).toEqual(message);
     });
@@ -50,6 +56,9 @@ describe('Exceptions', () => {
       expect(() => {
         throw error;
       }).toThrowType(CustomException);
+      expect(() => {
+        throw error;
+      }).toThrowSubType(Exception);
       expect(error.name).toEqual(CustomException.name);
       expect(error.message).toEqual(message);
     });
