@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import './App.scss';
 
-import { main } from 'model';
+import { main } from 'model/robot';
 
 function App() {
   const clear = () => console.clear();
